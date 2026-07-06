@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>La Gran Revelación - Una Aventura Mágica</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
@@ -19,6 +19,7 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
+            touch-action: manipulation;
         }
 
         body, html {
@@ -64,21 +65,62 @@
 
         .moon {
             position: absolute;
-            top: 10%;
-            right: 10%;
-            width: 120px;
-            height: 120px;
+            top: 5%;
+            right: 8%;
+            width: 70px;
+            height: 70px;
             background: radial-gradient(circle at 30% 30%, #fffbf0 0%, #f3e5ab 70%);
             border-radius: 50%;
-            box-shadow: 0 0 60px #fffbf0, inset -10px -10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 40px #fffbf0, inset -5px -5px 10px rgba(0,0,0,0.1);
             opacity: 0;
             z-index: 2;
+        }
+
+        @media (min-width: 768px) {
+            .moon { width: 120px; height: 120px; top: 10%; right: 10%; }
+        }
+
+        /* Pantalla de Inicio / Click Prompter */
+        #start-prompt {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            cursor: pointer;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .prompt-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ff9a9e, #a1c4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+
+        .prompt-sub {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+            animation: pulseText 1.8s infinite ease-in-out;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.4; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.02); }
         }
 
         /* Máquina de escribir Cinematográfica */
         .intro-container {
             position: absolute;
-            width: 80%;
+            width: 90%;
             max-width: 800px;
             text-align: center;
             z-index: 10;
@@ -86,9 +128,9 @@
         }
 
         .typewriter-text {
-            font-size: 2.2rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            line-height: 1.6;
+            line-height: 1.5;
             text-shadow: var(--text-shadow);
             background: linear-gradient(45deg, #fff, #f3e5ab);
             -webkit-background-clip: text;
@@ -96,33 +138,42 @@
             opacity: 0;
         }
 
+        @media (min-width: 768px) {
+            .typewriter-text { font-size: 2.2rem; }
+        }
+
         /* Huellitas SVG */
         .footprint {
             position: absolute;
-            width: 35px;
-            height: 35px;
+            width: 25px;
+            height: 25px;
             opacity: 0;
             z-index: 3;
             fill: url(#footprint-grad);
             filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
         }
 
-        /* Elenco de Personajes Cartoon */
+        /* Elenco de Personajes Cartoon (Totalmente Adaptable a Móvil) */
         .characters-stage {
             position: absolute;
-            bottom: 5%;
-            width: 90%;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-end;
+            bottom: 8%;
+            width: 100%;
+            max-width: 600px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 0 15px;
             z-index: 5;
             display: none;
+            justify-items: center;
+            align-items: flex-end;
         }
 
         .character-wrapper {
             position: relative;
-            width: 140px;
-            height: 180px;
+            width: 100%;
+            max-width: 110px;
+            aspect-ratio: 1 / 1.3;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -134,44 +185,52 @@
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
         }
 
-        /* Burbujas de Diálogo Premium */
+        /* Burbujas de Diálogo Inteligentes */
         .dialogue-bubble {
             position: absolute;
-            top: -90px;
-            background: rgba(255, 255, 255, 0.12);
+            top: -75px;
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 15px 20px;
-            border-radius: 24px;
-            font-size: 1.1rem;
-            font-weight: 500;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 0.75rem;
+            font-weight: 600;
             color: #fff;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             opacity: 0;
             transform: scale(0.8);
-            white-space: nowrap;
-            z-index: 6;
+            z-index: 100;
+            width: 130px;
+            text-align: center;
+            pointer-events: none;
         }
 
         .dialogue-bubble::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            border-width: 10px 10px 0;
+            border-width: 8px 8px 0;
             border-style: solid;
-            border-color: rgba(255, 255, 255, 0.12) transparent;
+            border-color: rgba(255, 255, 255, 0.15) transparent;
             display: block;
             width: 0;
+        }
+
+        @media (min-width: 768px) {
+            .dialogue-bubble { font-size: 1rem; width: 190px; top: -90px; padding: 15px 20px; }
+            .characters-stage { max-width: 90%; display: flex; justify-content: space-around; gap: 0; }
+            .character-wrapper { width: 140px; height: 180px; }
         }
 
         /* Botón de Acción Principal */
         .btn-magico {
             position: absolute;
-            padding: 20px 50px;
-            font-size: 1.8rem;
+            padding: 16px 32px;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #fff;
             background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #a1c4fd 100%);
@@ -185,18 +244,28 @@
             opacity: 0;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: background 0.5s;
+            width: 85%;
+            max-width: 340px;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .btn-magico { padding: 20px 50px; font-size: 1.8rem; width: auto; max-width: none; }
         }
 
         /* Escenario de la Caja Secreta */
         #box-stage {
             position: absolute;
-            width: 300px;
-            height: 300px;
+            width: 220px;
+            height: 220px;
             z-index: 15;
             cursor: pointer;
             display: none;
             transform-style: preserve-3d;
+        }
+
+        @media (min-width: 768px) {
+            #box-stage { width: 300px; height: 300px; }
         }
 
         .gift-box {
@@ -205,16 +274,17 @@
             position: relative;
         }
 
-        /* Máquina Tragamonedas Mágica */
+        /* Máquina Tragamonedas Mágica (Responsive Design) */
         #slot-machine-container {
             position: absolute;
-            width: 450px;
+            width: 90%;
+            max-width: 440px;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border: 4px solid rgba(255,255,255,0.25);
-            border-radius: 40px;
-            padding: 30px;
+            border: 3px solid rgba(255,255,255,0.25);
+            border-radius: 30px;
+            padding: 20px;
             box-shadow: 0 30px 100px rgba(0,0,0,0.8), inset 0 0 40px rgba(255,255,255,0.1);
             display: none;
             z-index: 25;
@@ -225,19 +295,28 @@
         }
 
         .slot-header-text {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
             text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .slot-header-text { font-size: 1.5rem; margin-bottom: 20px; }
+            #slot-machine-container { padding: 30px; border-radius: 40px; }
         }
 
         .reels-container {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             background: rgba(0,0,0,0.4);
-            padding: 20px;
-            border-radius: 24px;
+            padding: 15px;
+            border-radius: 20px;
             border: 2px solid rgba(255,255,255,0.1);
             overflow: hidden;
             width: 100%;
@@ -245,18 +324,23 @@
         }
 
         .reel {
-            width: 100px;
-            height: 120px;
+            width: 28%;
+            max-width: 100px;
+            height: 90px;
             background: linear-gradient(to bottom, #111, #222 50%, #111);
-            border-radius: 16px;
+            border-radius: 12px;
             border: 2px solid #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 800;
             overflow: hidden;
             position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .reel { height: 120px; font-size: 1.4rem; border-radius: 16px; }
         }
 
         .reel-viewport {
@@ -268,7 +352,7 @@
         }
 
         .reel-item {
-            height: 120px;
+            height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -276,28 +360,42 @@
             white-space: nowrap;
         }
 
-        /* Palanca Mecánica en CSS */
+        @media (min-width: 768px) {
+            .reel-item { height: 120px; }
+        }
+
+        /* Palanca Mecánica Ubicada Ergonómicamente en Móvil */
         .lever-mechanism {
             position: absolute;
-            right: -60px;
+            right: -45px;
             top: 50%;
+            transform: translateY(-50%);
             width: 20px;
-            height: 150px;
+            height: 120px;
             cursor: pointer;
+            z-index: 30;
+        }
+
+        @media (min-width: 768px) {
+            .lever-mechanism { right: -60px; height: 150px; }
         }
 
         .lever-slot {
-            width: 12px;
-            height: 100px;
+            width: 10px;
+            height: 80px;
             background: #111;
             border-radius: 10px;
             position: relative;
             border: 2px solid rgba(255,255,255,0.2);
         }
 
+        @media (min-width: 768px) {
+            .lever-slot { width: 12px; height: 100px; }
+        }
+
         .lever-stick {
-            width: 8px;
-            height: 80px;
+            width: 6px;
+            height: 65px;
             background: linear-gradient(90deg, #ccc, #fff, #888);
             position: absolute;
             top: 0;
@@ -306,15 +404,23 @@
             border-radius: 4px;
         }
 
+        @media (min-width: 768px) {
+            .lever-stick { width: 8px; height: 80px; }
+        }
+
         .lever-ball {
-            width: 32px;
-            height: 32px;
+            width: 26px;
+            height: 26px;
             background: radial-gradient(circle at 30% 30%, #ff5e62, #ff1e27);
             border-radius: 50%;
             position: absolute;
-            top: -25px;
-            left: -12px;
+            top: -20px;
+            left: -10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.4), 0 0 10px #ff5e62;
+        }
+
+        @media (min-width: 768px) {
+            .lever-ball { width: 32px; height: 32px; top: -25px; left: -12px; }
         }
 
         /* Telón de Flash Blanco */
@@ -328,12 +434,17 @@
             pointer-events: none;
         }
 
-        /* Estilos de Animación de Parpadeo de Ojos (Personajes) */
+        /* Estilos de Animación de Parpadeo de Ojos */
         .eye { transform-origin: center; animation: blink 4s infinite; }
         @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
     </style>
 </head>
 <body>
+
+    <div id="start-prompt">
+        <div class="prompt-title">🌟 LA GRAN REVELACIÓN 🌟</div>
+        <div class="prompt-sub">Toca la pantalla para comenzar la experiencia mágica</div>
+    </div>
 
     <svg style="position: absolute; width: 0; height: 0;">
         <defs>
@@ -460,21 +571,22 @@
          */
         const gender = "boy"; 
 
-        // Sound FX Engine Autocontenido
+        // Sound FX Engine Autocontenido con URLs Estables Libres de Bloqueos
         const AudioFX = {
             sounds: {
-                bg: new Audio('bg-music.mp3'),
-                pop: new Audio('pop.mp3'),
-                thud: new Audio('thud.mp3'),
-                lever: new Audio('lever.mp3'),
-                spin: new Audio('slot-spin.mp3'),
-                drum: new Audio('drumroll.mp3'),
-                win: new Audio('celebration.mp3')
+                bg: new Audio('https://actions.google.com/sounds/v1/music/gently_row.ogg'), 
+                pop: new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_bubble_pop.ogg'),
+                thud: new Audio('https://actions.google.com/sounds/v1/impacts/wood_heavy_thud.ogg'),
+                lever: new Audio('https://actions.google.com/sounds/v1/foley/mechanical_switch.ogg'),
+                spin: new Audio('https://actions.google.com/sounds/v1/foley/spinning_gears.ogg'),
+                drum: new Audio('https://actions.google.com/sounds/v1/procedural/snare_drum_roll_medium.ogg'),
+                win: new Audio('https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg') 
             },
             init() {
                 this.sounds.bg.loop = true;
                 this.sounds.bg.volume = 0.4;
                 this.sounds.spin.loop = true;
+                this.sounds.spin.volume = 0.5;
             },
             play(key) {
                 if(this.sounds[key]) {
@@ -487,16 +599,17 @@
             }
         };
 
-        // Motor Gráfico Especializado en Partículas por Canvas
+        // Motor Gráfico Especializado en Partículas por Canvas (Optimizando Estrellas Iniciales)
         const ParticleSystem = {
             canvas: document.getElementById('fxCanvas'),
             ctx: null,
             particles: [],
-            activeMode: 'stars', // modes: 'stars', 'smoke-blue', 'smoke-pink', 'smoke-mix', 'celebration'
+            activeMode: 'stars',
             init() {
                 this.ctx = this.canvas.getContext('2d');
                 this.resize();
                 window.addEventListener('resize', () => this.resize());
+                this.generateInitialStars(); // Generación inmediata de densidad
                 this.loop();
             },
             resize() {
@@ -509,34 +622,50 @@
             setMode(mode) {
                 this.activeMode = mode;
             },
+            generateInitialStars() {
+                // Forzamos la creación inicial de 150 estrellas para un cielo estrellado imponente desde el segundo cero
+                const count = window.innerWidth < 768 ? 80 : 180;
+                for(let i = 0; i < count; i++) {
+                    this.addParticle({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 2.5 + 0.5,
+                        alpha: Math.random(),
+                        speed: Math.random() * 0.01 + 0.003,
+                        type: 'star'
+                    });
+                }
+            },
             loop() {
                 requestAnimationFrame(() => this.loop());
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-                // Generación Pasiva Basada en Modos Atmosféricos
-                if (this.activeMode === 'stars' && Math.random() < 0.15) {
-                    this.addParticle({
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
-                        size: Math.random() * 2,
-                        alpha: Math.random(),
-                        speed: Math.random() * 0.02 + 0.005,
-                        type: 'star'
-                    });
+                // Generación Pasiva Continua de Estrellas
+                if (this.activeMode === 'stars' && this.particles.filter(p => p.type === 'star').length < 200) {
+                    if(Math.random() < 0.3) {
+                        this.addParticle({
+                            x: Math.random() * this.canvas.width,
+                            y: Math.random() * this.canvas.height,
+                            size: Math.random() * 2.5 + 0.5,
+                            alpha: 0,
+                            speed: Math.random() * 0.01 + 0.003,
+                            type: 'star'
+                        });
+                    }
                 }
 
                 if (this.activeMode.startsWith('smoke')) {
                     for(let i=0; i<3; i++) {
-                        let color = '#a1c4fd'; // Blue
+                        let color = '#a1c4fd'; 
                         if(this.activeMode === 'smoke-pink') color = '#ff9a9e';
                         if(this.activeMode === 'smoke-mix') color = Math.random() > 0.5 ? '#ff9a9e' : '#a1c4fd';
                         
                         this.addParticle({
-                            x: this.canvas.width / 2 + (Math.random() * 40 - 20),
-                            y: this.canvas.height / 2 + 50,
-                            size: Math.random() * 10 + 5,
-                            vx: Math.random() * 4 - 2,
-                            vy: Math.random() * -5 - 2,
+                            x: this.canvas.width / 2 + (Math.random() * 30 - 15),
+                            y: this.canvas.height / 2 + 30,
+                            size: Math.random() * 8 + 4,
+                            vx: Math.random() * 3 - 1.5,
+                            vy: Math.random() * -4 - 1.5,
                             alpha: 1,
                             color: color,
                             type: 'smoke'
@@ -544,18 +673,17 @@
                     }
                 }
 
-                if (this.activeMode === 'celebration' && Math.random() < 0.4) {
-                    // Confeti y Fuegos Artificiales Continuos
+                if (this.activeMode === 'celebration' && Math.random() < 0.5) {
                     this.addParticle({
                         x: Math.random() * this.canvas.width,
                         y: this.canvas.height,
-                        size: Math.random() * 8 + 4,
+                        size: Math.random() * 7 + 3,
                         vx: Math.random() * 6 - 3,
-                        vy: Math.random() * -15 - 10,
+                        vy: Math.random() * -12 - 8,
                         color: gender === 'boy' ? `hsl(${210 + Math.random()*30}, 100%, 70%)` : `hsl(${330 + Math.random()*30}, 100%, 70%)`,
                         type: 'confetti',
                         rotation: Math.random() * 360,
-                        rSpeed: Math.random() * 10 - 5
+                        rSpeed: Math.random() * 12 - 6
                     });
                 }
 
@@ -572,7 +700,7 @@
                     else if (p.type === 'smoke') {
                         p.x += p.vx;
                         p.y += p.vy;
-                        p.size += 0.4;
+                        p.size += 0.3;
                         p.alpha -= 0.015;
                         if (p.alpha <= 0) { this.particles.splice(i, 1); continue; }
                         this.ctx.fillStyle = p.color;
@@ -585,7 +713,7 @@
                     else if (p.type === 'confetti') {
                         p.x += p.vx;
                         p.y += p.vy;
-                        p.vy += 0.2; // Gravity
+                        p.vy += 0.22; 
                         p.rotation += p.rSpeed;
                         if (p.y > this.canvas.height + 20) { this.particles.splice(i, 1); continue; }
                         this.ctx.save();
@@ -598,31 +726,28 @@
                     else if (p.type === 'firework') {
                         p.x += p.vx;
                         p.y += p.vy;
-                        p.vy += 0.05;
-                        p.alpha -= 0.01;
+                        p.vy += 0.06;
+                        p.alpha -= 0.012;
                         if (p.alpha <= 0) { this.particles.splice(i, 1); continue; }
                         this.ctx.fillStyle = p.color;
                         this.ctx.globalAlpha = p.alpha;
-                        this.ctx.shadowBlur = 15;
-                        this.ctx.shadowColor = p.color;
                         this.ctx.beginPath();
                         this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                         this.ctx.fill();
-                        this.ctx.shadowBlur = 0;
                         this.ctx.globalAlpha = 1.0;
                     }
                 }
             },
             explodeFirework(x, y, color) {
-                for(let i=0; i<80; i++) {
+                for(let i=0; i<60; i++) {
                     let angle = Math.random() * Math.PI * 2;
-                    let speed = Math.random() * 8 + 2;
+                    let speed = Math.random() * 6 + 2;
                     this.addParticle({
                         x: x,
                         y: y,
                         vx: Math.cos(angle) * speed,
                         vy: Math.sin(angle) * speed,
-                        size: Math.random() * 3 + 1,
+                        size: Math.random() * 2.5 + 1,
                         alpha: 1,
                         color: color,
                         type: 'firework'
@@ -631,7 +756,7 @@
             }
         };
 
-        // Orquestador Cinematográfico Principal (Línea de Tiempo General)
+        // Orquestador Cinematográfico Principal
         const CinematicEngine = {
             introPhrases: [
                 "✨ Hay momentos que cambian una vida para siempre...",
@@ -646,13 +771,16 @@
             init() {
                 AudioFX.init();
                 ParticleSystem.init();
-                document.body.addEventListener('click', () => this.startIntro(), { once: true });
+                document.getElementById('start-prompt').addEventListener('click', () => this.startIntro(), { once: true });
             },
 
             startIntro() {
+                // Remueve el prompter de inicio con un fundido suave
+                gsap.to("#start-prompt", { opacity: 0, duration: 0.8, onComplete: () => document.getElementById('start-prompt').remove() });
+                
                 AudioFX.play('bg');
-                gsap.to("#sky", { opacity: 1, duration: 3 });
-                gsap.to("#moon", { opacity: 1, duration: 4, delay: 1 });
+                gsap.to("#sky", { opacity: 1, duration: 2.5 });
+                gsap.to("#moon", { opacity: 1, duration: 3.5, delay: 0.5 });
                 this.triggerNextPhrase();
             },
 
@@ -661,12 +789,11 @@
                     const textEl = document.getElementById('intro-text');
                     textEl.innerHTML = this.introPhrases[this.phraseIndex];
                     
-                    // Spawn Pasos Dinámicos en Pantalla simulando el camino del bebé
                     this.spawnFootprint();
 
                     let tl = gsap.timeline();
-                    tl.to(textEl, { opacity: 1, duration: 1.5, filter: "blur(0px)" })
-                      .to(textEl, { opacity: 0, duration: 1.5, filter: "blur(10px)", delay: 2.5, onComplete: () => {
+                    tl.to(textEl, { opacity: 1, duration: 1.2, filter: "blur(0px)" })
+                      .to(textEl, { opacity: 0, duration: 1.2, filter: "blur(10px)", delay: 2.3, onComplete: () => {
                           this.phraseIndex++;
                           this.triggerNextPhrase();
                       }});
@@ -682,11 +809,10 @@
                 footprint.setAttribute("class", "footprint");
                 footprint.setAttribute("viewBox", "0 0 100 100");
                 
-                // Path simplificado de huella de bebé
                 footprint.innerHTML = `<path d="M50,40 C35,40 30,60 40,75 C50,85 60,75 65,60 C65,45 58,40 50,40 Z M35,25 C40,25 40,35 35,35 C30,35 30,25 35,25 Z M50,15 C55,15 55,25 50,25 C45,25 45,15 50,15 Z M65,25 C70,25 70,35 65,35 C60,35 60,25 65,25 Z"/>`;
                 
-                let x = window.innerWidth * 0.2 + (this.phraseIndex * (window.innerWidth * 0.12));
-                let y = window.innerHeight * 0.5 + (Math.sin(this.phraseIndex) * 80);
+                let x = window.innerWidth * 0.15 + (this.phraseIndex * (window.innerWidth * 0.12));
+                let y = window.innerHeight * 0.55 + (Math.sin(this.phraseIndex) * 50);
                 
                 footprint.style.left = `${x}px`;
                 footprint.style.top = `${y}px`;
@@ -694,32 +820,30 @@
                 
                 view.appendChild(footprint);
                 AudioFX.play('pop');
-                gsap.to(footprint, { opacity: 0.7, duration: 0.8, onComplete: () => {
-                    gsap.to(footprint, { opacity: 0, duration: 2, delay: 1.5, onComplete: () => footprint.remove() });
+                gsap.to(footprint, { opacity: 0.7, duration: 0.6, onComplete: () => {
+                    gsap.to(footprint, { opacity: 0, duration: 1.5, delay: 1, onComplete: () => footprint.remove() });
                 }});
             },
 
             enterCharacters() {
-                document.getElementById('stage').style.display = 'flex';
+                document.getElementById('stage').style.display = window.innerWidth < 768 ? 'grid' : 'flex';
                 
-                // Entrada escalonada de actores digitales con rebote elástico
                 gsap.from(".character-wrapper", {
-                    y: 300,
+                    y: 200,
                     opacity: 0,
-                    duration: 1.8,
-                    stagger: 0.3,
-                    ease: "back.out(1.5)",
+                    duration: 1.5,
+                    stagger: 0.25,
+                    ease: "back.out(1.2)",
                     onComplete: () => this.runDialogueScript()
                 });
 
-                // Animación de respiración orgánica pasiva
                 gsap.to(".char-svg", {
                     scaleY: 1.05,
-                    duration: 1.2,
+                    duration: 1,
                     yoyo: true,
                     repeat: -1,
                     ease: "sine.inOut",
-                    stagger: 0.2
+                    stagger: 0.15
                 });
             },
 
@@ -729,8 +853,8 @@
                     { id: '#char-bear', text: "Creo que será un niño. 💙" },
                     { id: '#char-bunny', text: "¿Seguro?" },
                     { id: '#char-bunny', text: "Yo creo que será una niña. 🩷" },
-                    { id: '#char-penguin', text: "Creo que ninguno de nosotros lo sabe con certeza..." },
-                    { id: '#char-owl', text: "Solo existe una forma de descubrirlo." }
+                    { id: '#char-penguin', text: "Creo que ninguno lo sabe..." },
+                    { id: '#char-owl', text: "¡Solo hay una forma de descubrirlo!" }
                 ];
 
                 let currentLine = 0;
@@ -744,8 +868,8 @@
                         AudioFX.play('pop');
                         
                         let tl = gsap.timeline();
-                        tl.to(bubble, { opacity: 1, scale: 1, y: -10, duration: 0.4, ease: "back.out(1.7)" })
-                          .to(bubble, { opacity: 0, scale: 0.8, y: 0, duration: 0.4, delay: 2.2, onComplete: () => {
+                        tl.to(bubble, { opacity: 1, scale: 1, y: -5, duration: 0.35, ease: "back.out(1.5)" })
+                          .to(bubble, { opacity: 0, scale: 0.8, y: 0, duration: 0.35, delay: 2, onComplete: () => {
                               currentLine++;
                               showLine();
                           }});
@@ -759,13 +883,12 @@
             showRevealButton() {
                 const btn = document.getElementById('start-reveal-btn');
                 btn.style.display = 'block';
-                gsap.to(btn, { opacity: 1, scale: 1, duration: 1, ease: "elastic.out(1, 0.5)" });
+                gsap.to(btn, { opacity: 1, scale: 1, duration: 0.8, ease: "elastic.out(1, 0.6)" });
 
-                // Efecto Hover Infinito de Glow y Pulso Estilo Vercel/Linear
                 gsap.to(btn, { 
-                    boxShadow: "0 0 50px rgba(255,215,0,0.6), 0 10px 40px rgba(0,0,0,0.5)", 
-                    scale: 1.05, 
-                    duration: 1, 
+                    boxShadow: "0 0 40px rgba(255,215,0,0.5), 0 10px 30px rgba(0,0,0,0.5)", 
+                    scale: 1.03, 
+                    duration: 0.9, 
                     yoyo: true, 
                     repeat: -1, 
                     ease: "sine.inOut" 
@@ -775,24 +898,21 @@
             },
 
             dropTheBox() {
-                gsap.to("#start-reveal-btn", { opacity: 0, scale: 0.5, duration: 0.5, onComplete: () => document.getElementById('start-reveal-btn').remove() });
-                gsap.to("#stage", { opacity: 0, y: 100, duration: 1, delay: 0.5 });
-                gsap.to("#sky", { background: "radial-gradient(circle at center, #0a0c16 0%, #010205 100%)", duration: 2 });
+                gsap.to("#start-reveal-btn", { opacity: 0, scale: 0.5, duration: 0.4, onComplete: () => document.getElementById('start-reveal-btn').remove() });
+                gsap.to("#stage", { opacity: 0, y: 100, duration: 0.8, delay: 0.2 });
 
                 const boxStage = document.getElementById('box-stage');
                 boxStage.style.display = 'block';
                 
-                // Simulación física de caída libre cinemática con rebote hiperbólico
                 gsap.fromTo(boxStage, 
-                    { top: '-50%', left: '50%', xPercent: -50, yPercent: -50 },
+                    { top: '-40%', left: '50%', xPercent: -50, yPercent: -50 },
                     { 
                         top: '50%', 
-                        duration: 1.5, 
+                        duration: 1.3, 
                         ease: "bounce.out",
                         onComplete: () => {
                             AudioFX.play('thud');
-                            // Impacto en pantalla (Cam Shake de alta frecuencia)
-                            gsap.to("#viewport", { y: 15, duration: 0.05, repeat: 5, yoyo: true, ease: "none" });
+                            gsap.to("#viewport", { y: 10, duration: 0.05, repeat: 4, yoyo: true, ease: "none" });
                             this.prepareBoxInteraction();
                         }
                     }
@@ -801,8 +921,7 @@
 
             prepareBoxInteraction() {
                 const box = document.getElementById('interactive-box');
-                // Efecto flotante flotante sutil mientras espera click
-                gsap.to(box, { y: -10, duration: 1.5, yoyo: true, repeat: -1, ease: "sine.inOut" });
+                gsap.to(box, { y: -8, duration: 1.3, yoyo: true, repeat: -1, ease: "sine.inOut" });
 
                 box.addEventListener('click', () => {
                     gsap.killTweensOf(box);
@@ -813,26 +932,22 @@
             openBoxSequencer() {
                 const box = document.getElementById('interactive-box');
                 
-                // Vibración pre-apertura
                 let shakeTl = gsap.timeline();
-                shakeTl.to(box, { x: 10, duration: 0.05, repeat: 20, yoyo: true });
+                shakeTl.to(box, { x: 8, duration: 0.05, repeat: 16, yoyo: true });
                 
-                // Inyección de fases de humo cromático en hilo de canvas de forma sincrónica
-                setTimeout(() => ParticleSystem.setMode('smoke-pink'), 200);
-                setTimeout(() => ParticleSystem.setMode('smoke-blue'), 600);
-                setTimeout(() => ParticleSystem.setMode('smoke-mix'), 1000);
+                setTimeout(() => ParticleSystem.setMode('smoke-pink'), 150);
+                setTimeout(() => ParticleSystem.setMode('smoke-blue'), 450);
+                setTimeout(() => ParticleSystem.setMode('smoke-mix'), 800);
 
-                // Apertura de tapa e inundación lumínica
-                shakeTl.to("#box-lid", { transformOrigin: "right bottom", rotation: 110, y: -60, x: 30, opacity: 0, duration: 1.2, ease: "power3.out" }, "+=0.2");
+                shakeTl.to("#box-lid", { transformOrigin: "right bottom", rotation: 100, y: -40, x: 20, opacity: 0, duration: 1, ease: "power2.out" }, "+=0.1");
                 
-                // Zoom Cinematográfico hacia el interior de la singularidad
                 shakeTl.to("#viewport", { 
-                    scale: 3.5, 
+                    scale: window.innerWidth < 768 ? 2.5 : 3.5, 
                     transformOrigin: "center center", 
-                    duration: 2.5, 
-                    ease: "power4.inOut",
+                    duration: 2, 
+                    ease: "power3.inOut",
                     onComplete: () => this.transitionToSlotMachine()
-                }, "-=0.8");
+                }, "-=0.6");
             },
 
             transitionToSlotMachine() {
@@ -842,26 +957,26 @@
                 const slot = document.getElementById('slot-machine-container');
                 slot.style.display = 'flex';
                 
-                // Reseteo de escala de cámara y renderizado limpio de la máquina
                 gsap.set("#viewport", { scale: 1 });
-                gsap.to(slot, { opacity: 1, scale: 1, duration: 1, ease: "back.out(1.2)" });
+                gsap.to(slot, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.1)" });
 
                 SlotMachineEngine.buildReels();
             }
         };
 
-        // Motor Lógico y Mecánico de la Máquina Tragamonedas Mágica
+        // Motor Lógico de la Máquina Tragamonedas Mágica
         const SlotMachineEngine = {
             pool: ["✨", "🧸", "⭐", "❤️", "🍼", "☁️"],
             isSpinning: false,
             prankStep: 1,
+            itemHeight: window.innerWidth < 768 ? 90 : 120,
 
             buildReels() {
+                this.itemHeight = window.innerWidth < 768 ? 90 : 120;
                 ['reel1', 'reel2', 'reel3'].forEach(id => {
                     const vp = document.getElementById(id);
                     vp.innerHTML = '';
-                    // Generamos stack de items vertical para simular rotación infinita por CSS Matrix
-                    for(let i=0; i<30; i++) {
+                    for(let i=0; i<25; i++) {
                         let div = document.createElement('div');
                         div.className = 'reel-item';
                         div.innerText = this.pool[Math.floor(Math.random() * this.pool.length)];
@@ -873,16 +988,18 @@
 
             bindLever() {
                 const lever = document.getElementById('lever-control');
-                lever.addEventListener('click', () => {
+                lever.replaceWith(lever.cloneNode(true)); // Limpia listeners previos limpiamente
+                
+                const newLever = document.getElementById('lever-control');
+                newLever.addEventListener('click', () => {
                     if (this.isSpinning) return;
                     this.isSpinning = true;
 
                     AudioFX.play('lever');
                     
-                    // Animación física de la palanca de control
                     let tl = gsap.timeline();
-                    tl.to("#l-stick", { rotationX: 60, duration: 0.3, ease: "power2.in" })
-                      .to("#l-stick", { rotationX: 0, duration: 0.4, ease: "bounce.out", onComplete: () => {
+                    tl.to("#l-stick", { rotationX: 50, duration: 0.25, ease: "power2.in" })
+                      .to("#l-stick", { rotationX: 0, duration: 0.35, ease: "bounce.out", onComplete: () => {
                           this.startSpinningCycle();
                       }});
                 });
@@ -892,11 +1009,10 @@
                 AudioFX.play('spin');
                 document.getElementById('slot-msg').innerText = "PROCESANDO ADN MÁGICO...";
 
-                // Giro a máxima velocidad por manipulación directa de la matriz de transformación de GSAP
-                gsap.to(".reel-viewport", { y: -2400, duration: 0.5, repeat: -1, ease: "none" });
+                let travelDistance = this.itemHeight * 15;
+                gsap.to(".reel-viewport", { y: -travelDistance, duration: 0.4, repeat: -1, ease: "none" });
 
-                // Secuenciador de paradas lógicas controladas (Pranks + Final)
-                setTimeout(() => this.stopCycleWithResult(), 3000);
+                setTimeout(() => this.stopCycleWithResult(), 2500);
             },
 
             stopCycleWithResult() {
@@ -912,27 +1028,22 @@
                 }
             },
 
-           injectPrankResult(text, color) {
+            injectPrankResult(text, color) {
                 ['reel1', 'reel2', 'reel3'].forEach(id => {
                     const vp = document.getElementById(id);
                     vp.style.transform = "translateY(0px)";
-                    vp.innerHTML = `<div class="reel-item" style="color:${color}">${text.split(' ')[1]}</div>`;
+                    vp.innerHTML = `<div class="reel-item" style="color:${color}; height:${this.itemHeight}px;">${text.split(' ')[1]}</div>`;
                 });
 
                 document.getElementById('slot-msg').innerText = text;
                 AudioFX.play('win');
                 ParticleSystem.explodeFirework(window.innerWidth/2, window.innerHeight/2, color);
 
-                // Secuencia de reinicio interactivo para la siguiente broma
                 setTimeout(() => {
-                    // Mensaje dinámico que le exige acción al usuario nuevamente
                     document.getElementById('slot-msg').innerText = "Mmmm... ¡Falsa alarma! ¡Jala la palanca otra vez! 🎰";
-                    
                     this.prankStep++;
                     this.buildReels();
-                    
-                    // Liberamos el candado lógico para permitir el nuevo tiro
-                    this.isSpinning = false; 
+                    this.isSpinning = false; // Desbloquea la palanca para permitir la siguiente interacción física
                 }, 3500);
             },
 
@@ -940,7 +1051,6 @@
                 AudioFX.play('drum');
                 document.getElementById('slot-msg').innerText = "CONSULTANDO CON LA CIGÜEÑA...";
 
-                // Parada dramática uno por uno
                 let finalText = gender === 'boy' ? "BOY" : "GIRL";
                 let finalColor = gender === 'boy' ? "#1e90ff" : "#ff69b4";
                 let em = gender === 'boy' ? "💙" : "🩷";
@@ -949,60 +1059,54 @@
                 ['reel1', 'reel2', 'reel3'].forEach((id, idx) => {
                     rTl.to(`#${id}`, {
                         y: 0,
-                        duration: 1 + (idx * 0.8),
-                        ease: "back.out(1.2)",
+                        duration: 0.8 + (idx * 0.6),
+                        ease: "back.out(1.1)",
                         onStart: () => {
-                            document.getElementById(id).innerHTML = `<div class="reel-item" style="color:${finalColor}; font-size:1.8rem;">${finalText}</div>`;
+                            document.getElementById(id).innerHTML = `<div class="reel-item" style="color:${finalColor}; height:${this.itemHeight}px;">${finalText}</div>`;
                         }
                     });
                 });
 
-                // Clímax Absoluto
                 setTimeout(() => {
                     AudioFX.stop('drum');
-                    
-                    // Flash Blanco Cegador Cinemático
                     gsap.to("#flash-screen", { opacity: 1, duration: 0.1, yoyo: true, repeat: 1, onComplete: () => {
                         document.getElementById('slot-machine-container').remove();
                         this.triggerGrandFinale(em, finalColor);
                     }});
-                }, 3500);
+                }, 3200);
             },
 
             triggerGrandFinale(emoji, color) {
                 AudioFX.play('win');
                 ParticleSystem.setMode('celebration');
 
-                // Detonación masiva de fuegos artificiales en coordenadas estratégicas
-                for(let i=0; i<15; i++) {
+                for(let i=0; i<12; i++) {
                     setTimeout(() => {
                         let rx = Math.random() * window.innerWidth;
-                        let ry = Math.random() * (window.innerHeight * 0.6);
+                        let ry = Math.random() * (window.innerHeight * 0.5);
                         ParticleSystem.explodeFirework(rx, ry, color);
-                    }, i * 400);
+                    }, i * 450);
                 }
 
-                // Generación de Pantalla Final de Créditos Emocionales
                 const stage = document.getElementById('viewport');
                 const endContainer = document.createElement('div');
                 endContainer.className = 'intro-container';
                 stage.appendChild(endContainer);
 
                 const finalLabel = document.createElement('h1');
-                finalLabel.style.fontSize = '4.5rem';
-                finalLabel.style.marginBottom = '40px';
+                finalLabel.style.fontSize = window.innerWidth < 768 ? '2.8rem' : '4.5rem';
+                finalLabel.style.marginBottom = '30px';
                 finalLabel.style.textShadow = `0 0 30px ${color}`;
                 finalLabel.innerText = gender === 'boy' ? "💙 ¡ES NIÑO! 💙" : "🩷 ¡ES NIÑA! 🩷";
                 endContainer.appendChild(finalLabel);
 
                 const subText = document.createElement('div');
                 subText.className = 'typewriter-text';
-                subText.style.fontSize = '1.6rem';
+                subText.style.fontSize = window.innerWidth < 768 ? '1.1rem' : '1.6rem';
                 endContainer.appendChild(subText);
 
-                gsap.from(finalLabel, { scale: 0, rotation: -20, duration: 1.5, ease: "elastic.out(1, 0.3)" });
+                gsap.from(finalLabel, { scale: 0, rotation: -15, duration: 1.2, ease: "elastic.out(1, 0.4)" });
 
-                // Despliegue de Poema Emocional Final
                 const finalPhrases = [
                     "No importa si eres niño o niña...",
                     "Ya eres inmensamente amado.",
@@ -1017,22 +1121,20 @@
                     if(pIndex < finalPhrases.length) {
                         subText.innerHTML = finalPhrases[pIndex];
                         let tl = gsap.timeline();
-                        tl.to(subText, { opacity: 1, duration: 1.2 })
-                          .to(subText, { opacity: 0, duration: 1.2, delay: 3.5, onComplete: () => {
+                        tl.to(subText, { opacity: 1, duration: 1 })
+                          .to(subText, { opacity: 0, duration: 1, delay: 3, onComplete: () => {
                               pIndex++;
                               showFinalLine();
                           }});
                     } else {
-                        // Dejar congelado el último mensaje emotivo con brillo infinito
                         subText.innerHTML = finalPhrases[finalPhrases.length - 1];
-                        gsap.to(subText, { opacity: 1, filter: "drop-shadow(0 0 15px #fff)", duration: 2 });
+                        gsap.to(subText, { opacity: 1, filter: "drop-shadow(0 0 15px #fff)", duration: 1.5 });
                     }
                 };
                 showFinalLine();
             }
         };
 
-        // Inicialización del Hilo de Ejecución al cargar el DOM
         window.addEventListener('DOMContentLoaded', () => CinematicEngine.init());
     </script>
 </body>
