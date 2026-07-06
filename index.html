@@ -31,6 +31,7 @@
             color: #fff;
         }
 
+        /* Contenedor Cinematográfico Principal */
         #viewport {
             position: relative;
             width: 100%;
@@ -41,6 +42,7 @@
             perspective: 1200px;
         }
 
+        /* Canvas de Partículas (Física de Alto Rendimiento) */
         canvas {
             position: absolute;
             top: 0;
@@ -51,6 +53,7 @@
             pointer-events: none;
         }
 
+        /* Capas de Fondo Dinámicas */
         .sky-layer {
             position: absolute;
             width: 100%;
@@ -77,6 +80,7 @@
             .moon { width: 120px; height: 120px; top: 10%; right: 10%; }
         }
 
+        /* Pantalla de Inicio / Click Prompter */
         #start-prompt {
             position: absolute;
             width: 100%;
@@ -113,6 +117,7 @@
             50% { opacity: 1; transform: scale(1.02); }
         }
 
+        /* Máquina de escribir Cinematográfica */
         .intro-container {
             position: absolute;
             width: 90%;
@@ -137,6 +142,7 @@
             .typewriter-text { font-size: 2.2rem; }
         }
 
+        /* Huellitas SVG */
         .footprint {
             position: absolute;
             width: 25px;
@@ -147,11 +153,13 @@
             filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
         }
 
+        /* Elenco de Personajes Cartoon (Totalmente Adaptable a Móvil) */
         .characters-stage {
             position: absolute;
             bottom: 8%;
             width: 100%;
             max-width: 600px;
+            display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             padding: 0 15px;
@@ -177,6 +185,7 @@
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
         }
 
+        /* Burbujas de Diálogo Inteligentes */
         .dialogue-bubble {
             position: absolute;
             top: -75px;
@@ -217,6 +226,7 @@
             .character-wrapper { width: 140px; height: 180px; }
         }
 
+        /* Botón de Acción Principal */
         .btn-magico {
             position: absolute;
             padding: 16px 32px;
@@ -243,6 +253,7 @@
             .btn-magico { padding: 20px 50px; font-size: 1.8rem; width: auto; max-width: none; }
         }
 
+        /* Escenario de la Caja Secreta */
         #box-stage {
             position: absolute;
             width: 220px;
@@ -263,9 +274,10 @@
             position: relative;
         }
 
+        /* Máquina Tragamonedas Mágica (Responsive Design) */
         #slot-machine-container {
             position: absolute;
-            width: 88%;
+            width: 76%;
             max-width: 440px;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(30px);
@@ -352,29 +364,25 @@
             .reel-item { height: 120px; }
         }
 
-        /* PALANCA MEJORADA: Mayor área táctil (padding) para evitar fallos en móviles */
+        /* Palanca Mecánica Ubicada Ergonómicamente en Móvil */
         .lever-mechanism {
             position: absolute;
-            right: -35px;
+            right: -45px;
             top: 50%;
             transform: translateY(-50%);
-            width: 50px;
-            height: 140px;
+            width: 20px;
+            height: 120px;
             cursor: pointer;
             z-index: 30;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            touch-action: none; /* Previene scroll involuntario al arrastrar */
         }
 
         @media (min-width: 768px) {
-            .lever-mechanism { right: -55px; height: 170px; width: 60px; }
+            .lever-mechanism { right: -60px; height: 150px; }
         }
 
         .lever-slot {
-            width: 12px;
-            height: 90px;
+            width: 10px;
+            height: 80px;
             background: #111;
             border-radius: 10px;
             position: relative;
@@ -382,40 +390,40 @@
         }
 
         @media (min-width: 768px) {
-            .lever-slot { width: 14px; height: 110px; }
+            .lever-slot { width: 12px; height: 100px; }
         }
 
         .lever-stick {
             width: 6px;
-            height: 75px;
+            height: 65px;
             background: linear-gradient(90deg, #ccc, #fff, #888);
             position: absolute;
             top: 0;
-            left: 1px;
+            left: 2px;
             transform-origin: bottom center;
             border-radius: 4px;
-            pointer-events: none; /* Delega el toque al contenedor principal */
         }
 
         @media (min-width: 768px) {
-            .lever-stick { width: 8px; height: 90px; left: 1px; }
+            .lever-stick { width: 8px; height: 80px; }
         }
 
         .lever-ball {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             background: radial-gradient(circle at 30% 30%, #ff5e62, #ff1e27);
             border-radius: 50%;
             position: absolute;
-            top: -22px;
-            left: -11px;
+            top: -20px;
+            left: -10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.4), 0 0 10px #ff5e62;
         }
 
         @media (min-width: 768px) {
-            .lever-ball { width: 34px; height: 34px; top: -28px; left: -13px; }
+            .lever-ball { width: 32px; height: 32px; top: -25px; left: -12px; }
         }
 
+        /* Telón de Flash Blanco */
         #flash-screen {
             position: absolute;
             width: 100%;
@@ -426,6 +434,7 @@
             pointer-events: none;
         }
 
+        /* Estilos de Animación de Parpadeo de Ojos */
         .eye { transform-origin: center; animation: blink 4s infinite; }
         @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
     </style>
@@ -556,8 +565,13 @@
     </div>
 
     <script>
+        /**
+         * CONFIGURACIÓN GLOBAL DEL GÉNERO
+         * Valores permitidos: "boy" o "girl"
+         */
         const gender = "boy"; 
 
+        // Sound FX Engine Autocontenido con URLs Estables Libres de Bloqueos
         const AudioFX = {
             sounds: {
                 bg: new Audio('https://actions.google.com/sounds/v1/music/gently_row.ogg'), 
@@ -585,6 +599,7 @@
             }
         };
 
+        // Motor Gráfico Especializado en Partículas por Canvas (Optimizando Estrellas Iniciales)
         const ParticleSystem = {
             canvas: document.getElementById('fxCanvas'),
             ctx: null,
@@ -594,7 +609,7 @@
                 this.ctx = this.canvas.getContext('2d');
                 this.resize();
                 window.addEventListener('resize', () => this.resize());
-                this.generateInitialStars();
+                this.generateInitialStars(); // Generación inmediata de densidad
                 this.loop();
             },
             resize() {
@@ -608,6 +623,7 @@
                 this.activeMode = mode;
             },
             generateInitialStars() {
+                // Forzamos la creación inicial de 150 estrellas para un cielo estrellado imponente desde el segundo cero
                 const count = window.innerWidth < 768 ? 80 : 180;
                 for(let i = 0; i < count; i++) {
                     this.addParticle({
@@ -624,6 +640,7 @@
                 requestAnimationFrame(() => this.loop());
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+                // Generación Pasiva Continua de Estrellas
                 if (this.activeMode === 'stars' && this.particles.filter(p => p.type === 'star').length < 200) {
                     if(Math.random() < 0.3) {
                         this.addParticle({
@@ -659,7 +676,7 @@
                 if (this.activeMode === 'celebration' && Math.random() < 0.5) {
                     this.addParticle({
                         x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
+                        y: this.canvas.height,
                         size: Math.random() * 7 + 3,
                         vx: Math.random() * 6 - 3,
                         vy: Math.random() * -12 - 8,
@@ -670,6 +687,7 @@
                     });
                 }
 
+                // Renderizado y Ciclo de Vida
                 for (let i = this.particles.length - 1; i >= 0; i--) {
                     let p = this.particles[i];
 
@@ -705,10 +723,40 @@
                         this.ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
                         this.ctx.restore();
                     }
+                    else if (p.type === 'firework') {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.06;
+                        p.alpha -= 0.012;
+                        if (p.alpha <= 0) { this.particles.splice(i, 1); continue; }
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.globalAlpha = p.alpha;
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        this.ctx.globalAlpha = 1.0;
+                    }
+                }
+            },
+            explodeFirework(x, y, color) {
+                for(let i=0; i<60; i++) {
+                    let angle = Math.random() * Math.PI * 2;
+                    let speed = Math.random() * 6 + 2;
+                    this.addParticle({
+                        x: x,
+                        y: y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        size: Math.random() * 2.5 + 1,
+                        alpha: 1,
+                        color: color,
+                        type: 'firework'
+                    });
                 }
             }
         };
 
+        // Orquestador Cinematográfico Principal
         const CinematicEngine = {
             introPhrases: [
                 "✨ Hay momentos que cambian una vida para siempre...",
@@ -724,11 +772,12 @@
                 AudioFX.init();
                 ParticleSystem.init();
                 document.getElementById('start-prompt').addEventListener('click', () => this.startIntro(), { once: true });
-                this.initSlotLever(); // Iniciar handler robusto para la palanca
             },
 
             startIntro() {
+                // Remueve el prompter de inicio con un fundido suave
                 gsap.to("#start-prompt", { opacity: 0, duration: 0.8, onComplete: () => document.getElementById('start-prompt').remove() });
+                
                 AudioFX.play('bg');
                 gsap.to("#sky", { opacity: 1, duration: 2.5 });
                 gsap.to("#moon", { opacity: 1, duration: 3.5, delay: 0.5 });
@@ -739,6 +788,7 @@
                 if (this.phraseIndex < this.introPhrases.length) {
                     const textEl = document.getElementById('intro-text');
                     textEl.innerHTML = this.introPhrases[this.phraseIndex];
+                    
                     this.spawnFootprint();
 
                     let tl = gsap.timeline();
@@ -758,6 +808,7 @@
                 const footprint = document.createElementNS(svgNS, "svg");
                 footprint.setAttribute("class", "footprint");
                 footprint.setAttribute("viewBox", "0 0 100 100");
+                
                 footprint.innerHTML = `<path d="M50,40 C35,40 30,60 40,75 C50,85 60,75 65,60 C65,45 58,40 50,40 Z M35,25 C40,25 40,35 35,35 C30,35 30,25 35,25 Z M50,15 C55,15 55,25 50,25 C45,25 45,15 50,15 Z M65,25 C70,25 70,35 65,35 C60,35 60,25 65,25 Z"/>`;
                 
                 let x = window.innerWidth * 0.15 + (this.phraseIndex * (window.innerWidth * 0.12));
@@ -775,159 +826,316 @@
             },
 
             enterCharacters() {
-                const stage = document.getElementById('stage');
-                stage.style.display = window.innerWidth < 768 ? 'grid' : 'flex';
+                document.getElementById('stage').style.display = window.innerWidth < 768 ? 'grid' : 'flex';
                 
-                gsap.fromTo(".character-wrapper", 
-                    { y: 200, opacity: 0 }, 
-                    { y: 0, opacity: 1, duration: 1.2, staging: 0.3, ease: "back.out(1.5)", onComplete: () => this.startDialogues() }
+                gsap.from(".character-wrapper", {
+                    y: 200,
+                    opacity: 0,
+                    duration: 1.5,
+                    stagger: 0.25,
+                    ease: "back.out(1.2)",
+                    onComplete: () => this.runDialogueScript()
+                });
+
+                gsap.to(".char-svg", {
+                    scaleY: 1.05,
+                    duration: 1,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: "sine.inOut",
+                    stagger: 0.15
+                });
+            },
+
+            runDialogueScript() {
+                const script = [
+                    { id: '#char-bear', text: "Tengo una corazonada..." },
+                    { id: '#char-bear', text: "Creo que será un niño. 💙" },
+                    { id: '#char-bunny', text: "¿Seguro?" },
+                    { id: '#char-bunny', text: "Yo creo que será una niña. 🩷" },
+                    { id: '#char-penguin', text: "Creo que ninguno lo sabe..." },
+                    { id: '#char-owl', text: "¡Solo hay una forma de descubrirlo!" }
+                ];
+
+                let currentLine = 0;
+                const showLine = () => {
+                    if (currentLine < script.length) {
+                        let data = script[currentLine];
+                        let wrapper = document.querySelector(data.id);
+                        let bubble = wrapper.querySelector('.dialogue-bubble');
+                        
+                        bubble.innerText = data.text;
+                        AudioFX.play('pop');
+                        
+                        let tl = gsap.timeline();
+                        tl.to(bubble, { opacity: 1, scale: 1, y: -5, duration: 0.35, ease: "back.out(1.5)" })
+                          .to(bubble, { opacity: 0, scale: 0.8, y: 0, duration: 0.35, delay: 2, onComplete: () => {
+                              currentLine++;
+                              showLine();
+                          }});
+                    } else {
+                        this.showRevealButton();
+                    }
+                };
+                showLine();
+            },
+
+            showRevealButton() {
+                const btn = document.getElementById('start-reveal-btn');
+                btn.style.display = 'block';
+                gsap.to(btn, { opacity: 1, scale: 1, duration: 0.8, ease: "elastic.out(1, 0.6)" });
+
+                gsap.to(btn, { 
+                    boxShadow: "0 0 40px rgba(255,215,0,0.5), 0 10px 30px rgba(0,0,0,0.5)", 
+                    scale: 1.03, 
+                    duration: 0.9, 
+                    yoyo: true, 
+                    repeat: -1, 
+                    ease: "sine.inOut" 
+                });
+
+                btn.addEventListener('click', () => this.dropTheBox());
+            },
+
+            dropTheBox() {
+                gsap.to("#start-reveal-btn", { opacity: 0, scale: 0.5, duration: 0.4, onComplete: () => document.getElementById('start-reveal-btn').remove() });
+                gsap.to("#stage", { opacity: 0, y: 100, duration: 0.8, delay: 0.2 });
+
+                const boxStage = document.getElementById('box-stage');
+                boxStage.style.display = 'block';
+                
+                gsap.fromTo(boxStage, 
+                    { top: '-40%', left: '50%', xPercent: -50, yPercent: -50 },
+                    { 
+                        top: '50%', 
+                        duration: 1.3, 
+                        ease: "bounce.out",
+                        onComplete: () => {
+                            AudioFX.play('thud');
+                            gsap.to("#viewport", { y: 10, duration: 0.05, repeat: 4, yoyo: true, ease: "none" });
+                            this.prepareBoxInteraction();
+                        }
+                    }
                 );
             },
 
-            startDialogues() {
-                // Aquí iría tu secuencia de diálogos previos a la aparición de la caja
-                // Para no romper el flujo del script incompleto anterior, forzamos la aparición del botón mágico tras una breve pausa:
-                setTimeout(() => {
-                    const btn = document.getElementById('start-reveal-btn');
-                    btn.style.display = 'block';
-                    gsap.to(btn, { opacity: 1, duration: 0.8 });
-                    btn.addEventListener('click', () => this.transitionToBox());
-                }, 1000);
+            prepareBoxInteraction() {
+                const box = document.getElementById('interactive-box');
+                gsap.to(box, { y: -8, duration: 1.3, yoyo: true, repeat: -1, ease: "sine.inOut" });
+
+                box.addEventListener('click', () => {
+                    gsap.killTweensOf(box);
+                    this.openBoxSequencer();
+                }, { once: true });
             },
 
-            transitionToBox() {
-                gsap.to("#stage, #start-reveal-btn", { opacity: 0, duration: 0.6, onComplete: () => {
-                    document.getElementById('stage').style.display = 'none';
-                    document.getElementById('start-reveal-btn').style.display = 'none';
-                    this.showBox();
-                }});
+            openBoxSequencer() {
+                const box = document.getElementById('interactive-box');
+                
+                let shakeTl = gsap.timeline();
+                shakeTl.to(box, { x: 8, duration: 0.05, repeat: 16, yoyo: true });
+                
+                setTimeout(() => ParticleSystem.setMode('smoke-pink'), 150);
+                setTimeout(() => ParticleSystem.setMode('smoke-blue'), 450);
+                setTimeout(() => ParticleSystem.setMode('smoke-mix'), 800);
+
+                shakeTl.to("#box-lid", { transformOrigin: "right bottom", rotation: 100, y: -40, x: 20, opacity: 0, duration: 1, ease: "power2.out" }, "+=0.1");
+                
+                shakeTl.to("#viewport", { 
+                    scale: window.innerWidth < 768 ? 2.5 : 3.5, 
+                    transformOrigin: "center center", 
+                    duration: 2, 
+                    ease: "power3.inOut",
+                    onComplete: () => this.transitionToSlotMachine()
+                }, "-=0.6");
             },
 
-            showBox() {
-                const boxStage = document.getElementById('box-stage');
-                boxStage.style.display = 'block';
-                gsap.fromTo(boxStage, { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 1.5, ease: "back.out(1.2)" });
+            transitionToSlotMachine() {
+                document.getElementById('box-stage').remove();
+                ParticleSystem.setMode('none');
+
+                const slot = document.getElementById('slot-machine-container');
+                slot.style.display = 'flex';
                 
-                document.getElementById('interactive-box').addEventListener('click', () => this.transitionToSlot(), { once: true });
-            },
+                gsap.set("#viewport", { scale: 1 });
+                gsap.to(slot, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.1)" });
 
-            transitionToSlot() {
-                AudioFX.play('thud');
-                gsap.to("#box-stage", { scale: 0, duration: 0.5, onComplete: () => {
-                    document.getElementById('box-stage').style.display = 'none';
-                    this.showSlotMachine();
-                }});
-            },
-
-            showSlotMachine() {
-                const slotContainer = document.getElementById('slot-machine-container');
-                slotContainer.style.display = 'flex';
-                this.buildReels();
-                gsap.to(slotContainer, { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.2)" });
-            },
-
-            buildReels() {
-                const items = ["🍼", "🧸", "👶", "👑", "🌟", "🎈"];
-                const viewports = [document.getElementById('reel1'), document.getElementById('reel2'), document.getElementById('reel3')];
-                
-                viewports.forEach(vp => {
-                    vp.innerHTML = '';
-                    // Generamos bastantes elementos para simular el desplazamiento infinito continuo
-                    for(let i=0; i<30; i++) {
-                        let item = document.createElement('div');
-                        item.className = 'reel-item';
-                        item.innerText = items[i % items.length];
-                        vp.appendChild(item);
-                    }
-                });
-            },
-
-            /* CONTROL DE ARRASTRE DE PALANCA RESISTENTE CON POINTER EVENTS */
-            initSlotLever() {
-                const leverControl = document.getElementById('lever-control');
-                const stick = document.getElementById('l-stick');
-                let isDragging = false;
-                let startY = 0;
-                const maxDrag = 60; // Límites físicos del recorrido visual
-                let slotActive = false;
-
-                leverControl.addEventListener('pointerdown', (e) => {
-                    if (slotActive) return;
-                    isDragging = true;
-                    startY = e.clientY;
-                    leverControl.setPointerCapture(e.pointerId);
-                    AudioFX.play('lever');
-                });
-
-                leverControl.addEventListener('pointermove', (e) => {
-                    if (!isDragging) return;
-                    let deltaY = e.clientY - startY;
-                    if (deltaY < 0) deltaY = 0;
-                    if (deltaY > maxDrag) deltaY = maxDrag;
-                    
-                    // Rotación visual simulando anclaje mecánico en la base
-                    gsap.set(stick, { rotationX: (deltaY / maxDrag) * -45, y: deltaY * 0.3 });
-
-                    if (deltaY >= maxDrag - 5 && !slotActive) {
-                        slotActive = true;
-                        isDragging = false;
-                        leverControl.releasePointerCapture(e.pointerId);
-                        this.triggerSlotSpin(stick);
-                    }
-                });
-
-                const endDrag = (e) => {
-                    if (!isDragging) return;
-                    isDragging = false;
-                    gsap.to(stick, { rotationX: 0, y: 0, duration: 0.4, ease: "back.out(2)" });
-                };
-
-                leverControl.addEventListener('pointerup', endDrag);
-                leverControl.addEventListener('pointercancel', endDrag);
-            },
-
-            triggerSlotSpin(stick) {
-                // Recuperación elástica instantánea de la palanca mecánica
-                gsap.to(stick, { rotationX: 0, y: 0, duration: 0.3, ease: "back.out(2)" });
-                
-                AudioFX.play('spin');
-                AudioFX.play('drum');
-                
-                const finalSymbol = gender === "boy" ? "👦" : "👧";
-                const viewports = [document.getElementById('reel1'), document.getElementById('reel2'), document.getElementById('reel3')];
-                
-                // Forzar el símbolo definitivo en posiciones estratégicas del reel
-                viewports.forEach(vp => {
-                    vp.children[vp.children.length - 3].innerText = finalSymbol;
-                });
-
-                let tl = gsap.timeline({ onComplete: () => this.triggerFinalReveal() });
-                
-                // Animación de desaceleración diferenciada por reel (Efecto Casino Premium)
-                const itemHeight = window.innerWidth < 768 ? 90 : 120;
-                const targetY = -(27 * itemHeight);
-
-                tl.to("#reel1", { y: targetY, duration: 2.5, ease: "power4.out" }, 0)
-                  .to("#reel2", { y: targetY, duration: 3.2, ease: "power4.out" }, 0.3)
-                  .to("#reel3", { y: targetY, duration: 4.0, ease: "power4.out" }, 0.6);
-            },
-
-            triggerFinalReveal() {
-                AudioFX.stop('spin');
-                AudioFX.stop('drum');
-                AudioFX.play('win');
-
-                // Destello cinemático blanco en toda la pantalla
-                gsap.to("#flash-screen", { opacity: 1, duration: 0.1, yoyo: true, repeat: 1 });
-                
-                document.getElementById('slot-msg').innerHTML = "🎉 ¡ES UN " + (gender === "boy" ? "NIÑO" : "NIÑA") + "! 🎉";
-                document.getElementById('slot-msg').style.color = gender === "boy" ? "#a1c4fd" : "#ff9a9e";
-                
-                ParticleSystem.setMode('celebration');
+                SlotMachineEngine.buildReels();
             }
         };
 
-        window.onload = () => CinematicEngine.init();
+        // Motor Lógico de la Máquina Tragamonedas Mágica
+        const SlotMachineEngine = {
+            pool: ["✨", "🧸", "⭐", "❤️", "🍼", "☁️"],
+            isSpinning: false,
+            prankStep: 1,
+            itemHeight: window.innerWidth < 768 ? 90 : 120,
+
+            buildReels() {
+                this.itemHeight = window.innerWidth < 768 ? 90 : 120;
+                ['reel1', 'reel2', 'reel3'].forEach(id => {
+                    const vp = document.getElementById(id);
+                    vp.innerHTML = '';
+                    for(let i=0; i<25; i++) {
+                        let div = document.createElement('div');
+                        div.className = 'reel-item';
+                        div.innerText = this.pool[Math.floor(Math.random() * this.pool.length)];
+                        vp.appendChild(div);
+                    }
+                });
+                this.bindLever();
+            },
+
+            bindLever() {
+                const lever = document.getElementById('lever-control');
+                lever.replaceWith(lever.cloneNode(true)); // Limpia listeners previos limpiamente
+                
+                const newLever = document.getElementById('lever-control');
+                newLever.addEventListener('click', () => {
+                    if (this.isSpinning) return;
+                    this.isSpinning = true;
+
+                    AudioFX.play('lever');
+                    
+                    let tl = gsap.timeline();
+                    tl.to("#l-stick", { rotationX: 50, duration: 0.25, ease: "power2.in" })
+                      .to("#l-stick", { rotationX: 0, duration: 0.35, ease: "bounce.out", onComplete: () => {
+                          this.startSpinningCycle();
+                      }});
+                });
+            },
+
+            startSpinningCycle() {
+                AudioFX.play('spin');
+                document.getElementById('slot-msg').innerText = "PROCESANDO ADN MÁGICO...";
+
+                let travelDistance = this.itemHeight * 15;
+                gsap.to(".reel-viewport", { y: -travelDistance, duration: 0.4, repeat: -1, ease: "none" });
+
+                setTimeout(() => this.stopCycleWithResult(), 2500);
+            },
+
+            stopCycleWithResult() {
+                gsap.killTweensOf(".reel-viewport");
+                AudioFX.stop('spin');
+
+                if (this.prankStep === 1) {
+                    this.injectPrankResult("👦 ES NIÑO", "#a1c4fd");
+                } else if (this.prankStep === 2) {
+                    this.injectPrankResult("👧 ES NIÑA", "#ff9a9e");
+                } else {
+                    this.injectFinalResult();
+                }
+            },
+
+            injectPrankResult(text, color) {
+                ['reel1', 'reel2', 'reel3'].forEach(id => {
+                    const vp = document.getElementById(id);
+                    vp.style.transform = "translateY(0px)";
+                    vp.innerHTML = `<div class="reel-item" style="color:${color}; height:${this.itemHeight}px;">${text.split(' ')[1]}</div>`;
+                });
+
+                document.getElementById('slot-msg').innerText = text;
+                AudioFX.play('win');
+                ParticleSystem.explodeFirework(window.innerWidth/2, window.innerHeight/2, color);
+
+                setTimeout(() => {
+                    document.getElementById('slot-msg').innerText = "Mmmm... ¡Falsa alarma! ¡Jala la palanca otra vez! 🎰";
+                    this.prankStep++;
+                    this.buildReels();
+                    this.isSpinning = false; // Desbloquea la palanca para permitir la siguiente interacción física
+                }, 3500);
+            },
+
+            injectFinalResult() {
+                AudioFX.play('drum');
+                document.getElementById('slot-msg').innerText = "CONSULTANDO CON LA CIGÜEÑA...";
+
+                let finalText = gender === 'boy' ? "BOY" : "GIRL";
+                let finalColor = gender === 'boy' ? "#1e90ff" : "#ff69b4";
+                let em = gender === 'boy' ? "💙" : "🩷";
+
+                let rTl = gsap.timeline();
+                ['reel1', 'reel2', 'reel3'].forEach((id, idx) => {
+                    rTl.to(`#${id}`, {
+                        y: 0,
+                        duration: 0.8 + (idx * 0.6),
+                        ease: "back.out(1.1)",
+                        onStart: () => {
+                            document.getElementById(id).innerHTML = `<div class="reel-item" style="color:${finalColor}; height:${this.itemHeight}px;">${finalText}</div>`;
+                        }
+                    });
+                });
+
+                setTimeout(() => {
+                    AudioFX.stop('drum');
+                    gsap.to("#flash-screen", { opacity: 1, duration: 0.1, yoyo: true, repeat: 1, onComplete: () => {
+                        document.getElementById('slot-machine-container').remove();
+                        this.triggerGrandFinale(em, finalColor);
+                    }});
+                }, 3200);
+            },
+
+            triggerGrandFinale(emoji, color) {
+                AudioFX.play('win');
+                ParticleSystem.setMode('celebration');
+
+                for(let i=0; i<12; i++) {
+                    setTimeout(() => {
+                        let rx = Math.random() * window.innerWidth;
+                        let ry = Math.random() * (window.innerHeight * 0.5);
+                        ParticleSystem.explodeFirework(rx, ry, color);
+                    }, i * 450);
+                }
+
+                const stage = document.getElementById('viewport');
+                const endContainer = document.createElement('div');
+                endContainer.className = 'intro-container';
+                stage.appendChild(endContainer);
+
+                const finalLabel = document.createElement('h1');
+                finalLabel.style.fontSize = window.innerWidth < 768 ? '2.8rem' : '4.5rem';
+                finalLabel.style.marginBottom = '30px';
+                finalLabel.style.textShadow = `0 0 30px ${color}`;
+                finalLabel.innerText = gender === 'boy' ? "💙 ¡ES NIÑO! 💙" : "🩷 ¡ES NIÑA! 🩷";
+                endContainer.appendChild(finalLabel);
+
+                const subText = document.createElement('div');
+                subText.className = 'typewriter-text';
+                subText.style.fontSize = window.innerWidth < 768 ? '1.1rem' : '1.6rem';
+                endContainer.appendChild(subText);
+
+                gsap.from(finalLabel, { scale: 0, rotation: -15, duration: 1.2, ease: "elastic.out(1, 0.4)" });
+
+                const finalPhrases = [
+                    "No importa si eres niño o niña...",
+                    "Ya eres inmensamente amado.",
+                    "No podemos esperar para conocerte.",
+                    "Te esperamos con los brazos abiertos.",
+                    "El mejor regalo no fue descubrir tu género...",
+                    "El mejor regalo fue saber que llegarás a iluminar nuestras vidas. ✨"
+                ];
+
+                let pIndex = 0;
+                const showFinalLine = () => {
+                    if(pIndex < finalPhrases.length) {
+                        subText.innerHTML = finalPhrases[pIndex];
+                        let tl = gsap.timeline();
+                        tl.to(subText, { opacity: 1, duration: 1 })
+                          .to(subText, { opacity: 0, duration: 1, delay: 3, onComplete: () => {
+                              pIndex++;
+                              showFinalLine();
+                          }});
+                    } else {
+                        subText.innerHTML = finalPhrases[finalPhrases.length - 1];
+                        gsap.to(subText, { opacity: 1, filter: "drop-shadow(0 0 15px #fff)", duration: 1.5 });
+                    }
+                };
+                showFinalLine();
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => CinematicEngine.init());
     </script>
 </body>
 </html>
