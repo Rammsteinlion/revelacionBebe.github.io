@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Gran Revelación - Una Aventura Mágica</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --pink-glow: rgba(255, 105, 180, 0.6);
+            --blue-glow: rgba(30, 144, 255, 0.6);
+            --gold-glow: rgba(255, 215, 0, 0.8);
+            --text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Outfit', 'Nunito', system-ui, sans-serif;
+            color: #fff;
+        }
+
+        /* Contenedor Cinematográfico Principal */
+        #viewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px;
+        }
+
+        /* Canvas de Partículas (Física de Alto Rendimiento) */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Capas de Fondo Dinámicas */
+        .sky-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1e36 0%, #05070f 100%);
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .moon {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #fffbf0 0%, #f3e5ab 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px #fffbf0, inset -10px -10px 20px rgba(0,0,0,0.1);
+            opacity: 0;
+            z-index: 2;
+        }
+
+        /* Máquina de escribir Cinematográfica */
+        .intro-container {
+            position: absolute;
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .typewriter-text {
+            font-size: 2.2rem;
+            font-weight: 600;
+            line-height: 1.6;
+            text-shadow: var(--text-shadow);
+            background: linear-gradient(45deg, #fff, #f3e5ab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+        }
+
+        /* Huellitas SVG */
+        .footprint {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            opacity: 0;
+            z-index: 3;
+            fill: url(#footprint-grad);
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
+        }
+
+        /* Elenco de Personajes Cartoon */
+        .characters-stage {
+            position: absolute;
+            bottom: 5%;
+            width: 90%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            z-index: 5;
+            display: none;
+        }
+
+        .character-wrapper {
+            position: relative;
+            width: 140px;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .char-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+        }
+
+        /* Burbujas de Diálogo Premium */
+        .dialogue-bubble {
+            position: absolute;
+            top: -90px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 20px;
+            border-radius: 24px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #fff;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: scale(0.8);
+            white-space: nowrap;
+            z-index: 6;
+        }
+
+        .dialogue-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.12) transparent;
+            display: block;
+            width: 0;
+        }
+
+        /* Botón de Acción Principal */
+        .btn-magico {
+            position: absolute;
+            padding: 20px 50px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #a1c4fd 100%);
+            background-size: 200% auto;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 40px rgba(255,255,255,0.2);
+            z-index: 20;
+            display: none;
+            opacity: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.5s;
+        }
+
+        /* Escenario de la Caja Secreta */
+        #box-stage {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            z-index: 15;
+            cursor: pointer;
+            display: none;
+            transform-style: preserve-3d;
+        }
+
+        .gift-box {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Máquina Tragamonedas Mágica */
+        #slot-machine-container {
+            position: absolute;
+            width: 450px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 4px solid rgba(255,255,255,0.25);
+            border-radius: 40px;
+            padding: 30px;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.8), inset 0 0 40px rgba(255,255,255,0.1);
+            display: none;
+            z-index: 25;
+            opacity: 0;
+            transform: scale(0.5);
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .slot-header-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .reels-container {
+            display: flex;
+            gap: 15px;
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 24px;
+            border: 2px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .reel {
+            width: 100px;
+            height: 120px;
+            background: linear-gradient(to bottom, #111, #222 50%, #111);
+            border-radius: 16px;
+            border: 2px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .reel-viewport {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.1s linear;
+        }
+
+        .reel-item {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 8px rgba(255,255,255,0.8);
+            white-space: nowrap;
+        }
+
+        /* Palanca Mecánica en CSS */
+        .lever-mechanism {
+            position: absolute;
+            right: -60px;
+            top: 50%;
+            width: 20px;
+            height: 150px;
+            cursor: pointer;
+        }
+
+        .lever-slot {
+            width: 12px;
+            height: 100px;
+            background: #111;
+            border-radius: 10px;
+            position: relative;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .lever-stick {
+            width: 8px;
+            height: 80px;
+            background: linear-gradient(90deg, #ccc, #fff, #888);
+            position: absolute;
+            top: 0;
+            left: 2px;
+            transform-origin: bottom center;
+            border-radius: 4px;
+        }
+
+        .lever-ball {
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle at 30% 30%, #ff5e62, #ff1e27);
+            border-radius: 50%;
+            position: absolute;
+            top: -25px;
+            left: -12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4), 0 0 10px #ff5e62;
+        }
+
+        /* Telón de Flash Blanco */
+        #flash-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Estilos de Animación de Parpadeo de Ojos (Personajes) */
+        .eye { transform-origin: center; animation: blink 4s infinite; }
+        @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <linearGradient id="footprint-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fff" />
+                <stop offset="100%" stop-color="#f3e5ab" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div id="viewport">
+        <div id="flash-screen"></div>
+        <div class="sky-layer" id="sky"></div>
+        <div class="moon" id="moon"></div>
+        <canvas id="fxCanvas"></canvas>
+
+        <div class="intro-container">
+            <div class="typewriter-text" id="intro-text"></div>
+        </div>
+
+        <button class="btn-magico" id="start-reveal-btn">Comenzar la Revelación</button>
+
+        <div class="characters-stage" id="stage">
+            <div class="character-wrapper" id="char-bear">
+                <div class="dialogue-bubble"></div>
+                <svg class="char-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="55" r="30" fill="#a0522d"/>
+                    <circle cx="28" cy="30" r="12" fill="#a0522d"/>
+                    <circle cx="72" cy="30" r="12" fill="#a0522d"/>
+                    <circle cx="28" cy="30" r="6" fill="#ffa07a"/>
+                    <circle cx="72" cy="30" r="6" fill="#ffa07a"/>
+                    <circle cx="50" cy="60" r="12" fill="#ffa07a"/>
+                    <circle class="eye" cx="40" cy="48" r="3.5" fill="#000"/>
+                    <circle class="eye" cx="60" cy="48" r="3.5" fill="#000"/>
+                    <polygon points="46,56 54,56 50,61" fill="#000"/>
+                </svg>
+            </div>
+
+            <div class="character-wrapper" id="char-bunny">
+                <div class="dialogue-bubble"></div>
+                <svg class="char-svg" viewBox="0 0 100 100">
+                    <ellipse cx="50" cy="60" rx="26" ry="28" fill="#e0e0e0"/>
+                    <ellipse cx="38" cy="28" rx="8" ry="24" fill="#e0e0e0" transform="rotate(-5 38 28)"/>
+                    <ellipse cx="62" cy="28" rx="8" ry="24" fill="#e0e0e0" transform="rotate(5 62 28)"/>
+                    <ellipse cx="38" cy="32" rx="4" ry="16" fill="#ffb6c1" transform="rotate(-5 38 32)"/>
+                    <ellipse cx="62" cy="32" rx="4" ry="16" fill="#ffb6c1" transform="rotate(5 62 32)"/>
+                    <circle class="eye" cx="42" cy="52" r="3" fill="#000"/>
+                    <circle class="eye" cx="58" cy="52" r="3" fill="#000"/>
+                    <polygon points="48,58 52,58 50,61" fill="#ffb6c1"/>
+                </svg>
+            </div>
+
+            <div class="character-wrapper" id="char-penguin">
+                <div class="dialogue-bubble"></div>
+                <svg class="char-svg" viewBox="0 0 100 100">
+                    <ellipse cx="50" cy="58" rx="26" ry="30" fill="#2c3e50"/>
+                    <ellipse cx="50" cy="60" rx="18" ry="22" fill="#fff"/>
+                    <circle class="eye" cx="42" cy="46" r="3.5" fill="#000"/>
+                    <circle class="eye" cx="58" cy="46" r="3.5" fill="#000"/>
+                    <polygon points="44,52 56,52 50,62" fill="#f1c40f"/>
+                    <ellipse cx="32" cy="85" rx="10" ry="5" fill="#f1c40f"/>
+                    <ellipse cx="68" cy="85" rx="10" ry="5" fill="#f1c40f"/>
+                </svg>
+            </div>
+
+            <div class="character-wrapper" id="char-owl">
+                <div class="dialogue-bubble"></div>
+                <svg class="char-svg" viewBox="0 0 100 100">
+                    <ellipse cx="50" cy="55" rx="28" ry="30" fill="#795548"/>
+                    <circle cx="38" cy="45" r="10" fill="#fff"/>
+                    <circle cx="62" cy="45" r="10" fill="#fff"/>
+                    <circle class="eye" cx="38" cy="45" r="4" fill="#000"/>
+                    <circle class="eye" cx="62" cy="45" r="4" fill="#000"/>
+                    <polygon points="46,52 54,52 50,62" fill="#ff9800"/>
+                    <polygon points="22,30 34,36 26,42" fill="#5d4037"/>
+                    <polygon points="78,30 66,36 74,42" fill="#5d4037"/>
+                </svg>
+            </div>
+        </div>
+
+        <div id="box-stage">
+            <div class="gift-box" id="interactive-box">
+                <svg viewBox="0 0 200 200" width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ffd700" />
+                            <stop offset="100%" stop-color="#b8860b" />
+                        </linearGradient>
+                    </defs>
+                    <ellipse cx="100" cy="180" rx="60" ry="12" fill="rgba(0,0,0,0.4)" id="box-shadow"/>
+                    <rect x="40" y="80" width="120" height="90" fill="url(#boxGrad)" rx="10" />
+                    <rect x="90" y="80" width="20" height="90" fill="#ff3366" />
+                    <g id="box-lid">
+                        <rect x="34" y="60" width="132" height="25" fill="#ffe066" rx="5" />
+                        <rect x="90" y="60" width="20" height="25" fill="#e6004c" />
+                        <path d="M75,60 C60,30 90,30 95,60 Z" fill="#ff3366"/>
+                        <path d="M125,60 C140,30 110,30 105,60 Z" fill="#ff3366"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <div id="slot-machine-container">
+            <div class="slot-header-text" id="slot-msg">MÁQUINA DEL DESTINO</div>
+            <div class="reels-container">
+                <div class="reel"><div class="reel-viewport" id="reel1"></div></div>
+                <div class="reel"><div class="reel-viewport" id="reel2"></div></div>
+                <div class="reel"><div class="reel-viewport" id="reel3"></div></div>
+            </div>
+            <div class="lever-mechanism" id="lever-control">
+                <div class="lever-slot">
+                    <div class="lever-stick" id="l-stick">
+                        <div class="lever-ball"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * CONFIGURACIÓN GLOBAL DEL GÉNERO
+         * Valores permitidos: "boy" o "girl"
+         */
+        const gender = "boy"; 
+
+        // Sound FX Engine Autocontenido
+        const AudioFX = {
+            sounds: {
+                bg: new Audio('bg-music.mp3'),
+                pop: new Audio('pop.mp3'),
+                thud: new Audio('thud.mp3'),
+                lever: new Audio('lever.mp3'),
+                spin: new Audio('slot-spin.mp3'),
+                drum: new Audio('drumroll.mp3'),
+                win: new Audio('celebration.mp3')
+            },
+            init() {
+                this.sounds.bg.loop = true;
+                this.sounds.bg.volume = 0.4;
+                this.sounds.spin.loop = true;
+            },
+            play(key) {
+                if(this.sounds[key]) {
+                    this.sounds[key].currentTime = 0;
+                    this.sounds[key].play().catch(() => {});
+                }
+            },
+            stop(key) {
+                if(this.sounds[key]) this.sounds[key].pause();
+            }
+        };
+
+        // Motor Gráfico Especializado en Partículas por Canvas
+        const ParticleSystem = {
+            canvas: document.getElementById('fxCanvas'),
+            ctx: null,
+            particles: [],
+            activeMode: 'stars', // modes: 'stars', 'smoke-blue', 'smoke-pink', 'smoke-mix', 'celebration'
+            init() {
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                this.loop();
+            },
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            },
+            addParticle(p) {
+                this.particles.push(p);
+            },
+            setMode(mode) {
+                this.activeMode = mode;
+            },
+            loop() {
+                requestAnimationFrame(() => this.loop());
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Generación Pasiva Basada en Modos Atmosféricos
+                if (this.activeMode === 'stars' && Math.random() < 0.15) {
+                    this.addParticle({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 2,
+                        alpha: Math.random(),
+                        speed: Math.random() * 0.02 + 0.005,
+                        type: 'star'
+                    });
+                }
+
+                if (this.activeMode.startsWith('smoke')) {
+                    for(let i=0; i<3; i++) {
+                        let color = '#a1c4fd'; // Blue
+                        if(this.activeMode === 'smoke-pink') color = '#ff9a9e';
+                        if(this.activeMode === 'smoke-mix') color = Math.random() > 0.5 ? '#ff9a9e' : '#a1c4fd';
+                        
+                        this.addParticle({
+                            x: this.canvas.width / 2 + (Math.random() * 40 - 20),
+                            y: this.canvas.height / 2 + 50,
+                            size: Math.random() * 10 + 5,
+                            vx: Math.random() * 4 - 2,
+                            vy: Math.random() * -5 - 2,
+                            alpha: 1,
+                            color: color,
+                            type: 'smoke'
+                        });
+                    }
+                }
+
+                if (this.activeMode === 'celebration' && Math.random() < 0.4) {
+                    // Confeti y Fuegos Artificiales Continuos
+                    this.addParticle({
+                        x: Math.random() * this.canvas.width,
+                        y: this.canvas.height,
+                        size: Math.random() * 8 + 4,
+                        vx: Math.random() * 6 - 3,
+                        vy: Math.random() * -15 - 10,
+                        color: gender === 'boy' ? `hsl(${210 + Math.random()*30}, 100%, 70%)` : `hsl(${330 + Math.random()*30}, 100%, 70%)`,
+                        type: 'confetti',
+                        rotation: Math.random() * 360,
+                        rSpeed: Math.random() * 10 - 5
+                    });
+                }
+
+                // Renderizado y Ciclo de Vida
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    let p = this.particles[i];
+
+                    if (p.type === 'star') {
+                        p.alpha += p.speed;
+                        if (p.alpha > 1 || p.alpha < 0) p.speed = -p.speed;
+                        this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(p.alpha)})`;
+                        this.ctx.fillRect(p.x, p.y, p.size, p.size);
+                    } 
+                    else if (p.type === 'smoke') {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.size += 0.4;
+                        p.alpha -= 0.015;
+                        if (p.alpha <= 0) { this.particles.splice(i, 1); continue; }
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.globalAlpha = p.alpha;
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        this.ctx.globalAlpha = 1.0;
+                    }
+                    else if (p.type === 'confetti') {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.2; // Gravity
+                        p.rotation += p.rSpeed;
+                        if (p.y > this.canvas.height + 20) { this.particles.splice(i, 1); continue; }
+                        this.ctx.save();
+                        this.ctx.translate(p.x, p.y);
+                        this.ctx.rotate(p.rotation * Math.PI / 180);
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                        this.ctx.restore();
+                    }
+                    else if (p.type === 'firework') {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.05;
+                        p.alpha -= 0.01;
+                        if (p.alpha <= 0) { this.particles.splice(i, 1); continue; }
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.globalAlpha = p.alpha;
+                        this.ctx.shadowBlur = 15;
+                        this.ctx.shadowColor = p.color;
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        this.ctx.shadowBlur = 0;
+                        this.ctx.globalAlpha = 1.0;
+                    }
+                }
+            },
+            explodeFirework(x, y, color) {
+                for(let i=0; i<80; i++) {
+                    let angle = Math.random() * Math.PI * 2;
+                    let speed = Math.random() * 8 + 2;
+                    this.addParticle({
+                        x: x,
+                        y: y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        size: Math.random() * 3 + 1,
+                        alpha: 1,
+                        color: color,
+                        type: 'firework'
+                    });
+                }
+            }
+        };
+
+        // Orquestador Cinematográfico Principal (Línea de Tiempo General)
+        const CinematicEngine = {
+            introPhrases: [
+                "✨ Hay momentos que cambian una vida para siempre...",
+                "❤️ Hoy queremos compartir contigo uno de los momentos más especiales de nuestra vida.",
+                "🌸 Un pequeño milagro está creciendo día a día.",
+                "👨‍👩‍👦 Cada latido nos recuerda que una nueva aventura está por comenzar.",
+                "🍼 Hoy descubrirás un secreto que hemos guardado con muchísimo amor.",
+                "✨ Gracias por acompañarnos en este momento tan especial."
+            ],
+            phraseIndex: 0,
+            
+            init() {
+                AudioFX.init();
+                ParticleSystem.init();
+                document.body.addEventListener('click', () => this.startIntro(), { once: true });
+            },
+
+            startIntro() {
+                AudioFX.play('bg');
+                gsap.to("#sky", { opacity: 1, duration: 3 });
+                gsap.to("#moon", { opacity: 1, duration: 4, delay: 1 });
+                this.triggerNextPhrase();
+            },
+
+            triggerNextPhrase() {
+                if (this.phraseIndex < this.introPhrases.length) {
+                    const textEl = document.getElementById('intro-text');
+                    textEl.innerHTML = this.introPhrases[this.phraseIndex];
+                    
+                    // Spawn Pasos Dinámicos en Pantalla simulando el camino del bebé
+                    this.spawnFootprint();
+
+                    let tl = gsap.timeline();
+                    tl.to(textEl, { opacity: 1, duration: 1.5, filter: "blur(0px)" })
+                      .to(textEl, { opacity: 0, duration: 1.5, filter: "blur(10px)", delay: 2.5, onComplete: () => {
+                          this.phraseIndex++;
+                          this.triggerNextPhrase();
+                      }});
+                } else {
+                    this.enterCharacters();
+                }
+            },
+
+            spawnFootprint() {
+                const view = document.getElementById('viewport');
+                const svgNS = "http://www.w3.org/2000/svg";
+                const footprint = document.createElementNS(svgNS, "svg");
+                footprint.setAttribute("class", "footprint");
+                footprint.setAttribute("viewBox", "0 0 100 100");
+                
+                // Path simplificado de huella de bebé
+                footprint.innerHTML = `<path d="M50,40 C35,40 30,60 40,75 C50,85 60,75 65,60 C65,45 58,40 50,40 Z M35,25 C40,25 40,35 35,35 C30,35 30,25 35,25 Z M50,15 C55,15 55,25 50,25 C45,25 45,15 50,15 Z M65,25 C70,25 70,35 65,35 C60,35 60,25 65,25 Z"/>`;
+                
+                let x = window.innerWidth * 0.2 + (this.phraseIndex * (window.innerWidth * 0.12));
+                let y = window.innerHeight * 0.5 + (Math.sin(this.phraseIndex) * 80);
+                
+                footprint.style.left = `${x}px`;
+                footprint.style.top = `${y}px`;
+                footprint.style.transform = `rotate(${15 + (Math.random()*20)}deg)`;
+                
+                view.appendChild(footprint);
+                AudioFX.play('pop');
+                gsap.to(footprint, { opacity: 0.7, duration: 0.8, onComplete: () => {
+                    gsap.to(footprint, { opacity: 0, duration: 2, delay: 1.5, onComplete: () => footprint.remove() });
+                }});
+            },
+
+            enterCharacters() {
+                document.getElementById('stage').style.display = 'flex';
+                
+                // Entrada escalonada de actores digitales con rebote elástico
+                gsap.from(".character-wrapper", {
+                    y: 300,
+                    opacity: 0,
+                    duration: 1.8,
+                    stagger: 0.3,
+                    ease: "back.out(1.5)",
+                    onComplete: () => this.runDialogueScript()
+                });
+
+                // Animación de respiración orgánica pasiva
+                gsap.to(".char-svg", {
+                    scaleY: 1.05,
+                    duration: 1.2,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: "sine.inOut",
+                    stagger: 0.2
+                });
+            },
+
+            runDialogueScript() {
+                const script = [
+                    { id: '#char-bear', text: "Tengo una corazonada..." },
+                    { id: '#char-bear', text: "Creo que será un niño. 💙" },
+                    { id: '#char-bunny', text: "¿Seguro?" },
+                    { id: '#char-bunny', text: "Yo creo que será una niña. 🩷" },
+                    { id: '#char-penguin', text: "Creo que ninguno de nosotros lo sabe con certeza..." },
+                    { id: '#char-owl', text: "Solo existe una forma de descubrirlo." }
+                ];
+
+                let currentLine = 0;
+                const showLine = () => {
+                    if (currentLine < script.length) {
+                        let data = script[currentLine];
+                        let wrapper = document.querySelector(data.id);
+                        let bubble = wrapper.querySelector('.dialogue-bubble');
+                        
+                        bubble.innerText = data.text;
+                        AudioFX.play('pop');
+                        
+                        let tl = gsap.timeline();
+                        tl.to(bubble, { opacity: 1, scale: 1, y: -10, duration: 0.4, ease: "back.out(1.7)" })
+                          .to(bubble, { opacity: 0, scale: 0.8, y: 0, duration: 0.4, delay: 2.2, onComplete: () => {
+                              currentLine++;
+                              showLine();
+                          }});
+                    } else {
+                        this.showRevealButton();
+                    }
+                };
+                showLine();
+            },
+
+            showRevealButton() {
+                const btn = document.getElementById('start-reveal-btn');
+                btn.style.display = 'block';
+                gsap.to(btn, { opacity: 1, scale: 1, duration: 1, ease: "elastic.out(1, 0.5)" });
+
+                // Efecto Hover Infinito de Glow y Pulso Estilo Vercel/Linear
+                gsap.to(btn, { 
+                    boxShadow: "0 0 50px rgba(255,215,0,0.6), 0 10px 40px rgba(0,0,0,0.5)", 
+                    scale: 1.05, 
+                    duration: 1, 
+                    yoyo: true, 
+                    repeat: -1, 
+                    ease: "sine.inOut" 
+                });
+
+                btn.addEventListener('click', () => this.dropTheBox());
+            },
+
+            dropTheBox() {
+                gsap.to("#start-reveal-btn", { opacity: 0, scale: 0.5, duration: 0.5, onComplete: () => document.getElementById('start-reveal-btn').remove() });
+                gsap.to("#stage", { opacity: 0, y: 100, duration: 1, delay: 0.5 });
+                gsap.to("#sky", { background: "radial-gradient(circle at center, #0a0c16 0%, #010205 100%)", duration: 2 });
+
+                const boxStage = document.getElementById('box-stage');
+                boxStage.style.display = 'block';
+                
+                // Simulación física de caída libre cinemática con rebote hiperbólico
+                gsap.fromTo(boxStage, 
+                    { top: '-50%', left: '50%', xPercent: -50, yPercent: -50 },
+                    { 
+                        top: '50%', 
+                        duration: 1.5, 
+                        ease: "bounce.out",
+                        onComplete: () => {
+                            AudioFX.play('thud');
+                            // Impacto en pantalla (Cam Shake de alta frecuencia)
+                            gsap.to("#viewport", { y: 15, duration: 0.05, repeat: 5, yoyo: true, ease: "none" });
+                            this.prepareBoxInteraction();
+                        }
+                    }
+                );
+            },
+
+            prepareBoxInteraction() {
+                const box = document.getElementById('interactive-box');
+                // Efecto flotante flotante sutil mientras espera click
+                gsap.to(box, { y: -10, duration: 1.5, yoyo: true, repeat: -1, ease: "sine.inOut" });
+
+                box.addEventListener('click', () => {
+                    gsap.killTweensOf(box);
+                    this.openBoxSequencer();
+                }, { once: true });
+            },
+
+            openBoxSequencer() {
+                const box = document.getElementById('interactive-box');
+                
+                // Vibración pre-apertura
+                let shakeTl = gsap.timeline();
+                shakeTl.to(box, { x: 10, duration: 0.05, repeat: 20, yoyo: true });
+                
+                // Inyección de fases de humo cromático en hilo de canvas de forma sincrónica
+                setTimeout(() => ParticleSystem.setMode('smoke-pink'), 200);
+                setTimeout(() => ParticleSystem.setMode('smoke-blue'), 600);
+                setTimeout(() => ParticleSystem.setMode('smoke-mix'), 1000);
+
+                // Apertura de tapa e inundación lumínica
+                shakeTl.to("#box-lid", { transformOrigin: "right bottom", rotation: 110, y: -60, x: 30, opacity: 0, duration: 1.2, ease: "power3.out" }, "+=0.2");
+                
+                // Zoom Cinematográfico hacia el interior de la singularidad
+                shakeTl.to("#viewport", { 
+                    scale: 3.5, 
+                    transformOrigin: "center center", 
+                    duration: 2.5, 
+                    ease: "power4.inOut",
+                    onComplete: () => this.transitionToSlotMachine()
+                }, "-=0.8");
+            },
+
+            transitionToSlotMachine() {
+                document.getElementById('box-stage').remove();
+                ParticleSystem.setMode('none');
+
+                const slot = document.getElementById('slot-machine-container');
+                slot.style.display = 'flex';
+                
+                // Reseteo de escala de cámara y renderizado limpio de la máquina
+                gsap.set("#viewport", { scale: 1 });
+                gsap.to(slot, { opacity: 1, scale: 1, duration: 1, ease: "back.out(1.2)" });
+
+                SlotMachineEngine.buildReels();
+            }
+        };
+
+        // Motor Lógico y Mecánico de la Máquina Tragamonedas Mágica
+        const SlotMachineEngine = {
+            pool: ["✨", "🧸", "⭐", "❤️", "🍼", "☁️"],
+            isSpinning: false,
+            prankStep: 1,
+
+            buildReels() {
+                ['reel1', 'reel2', 'reel3'].forEach(id => {
+                    const vp = document.getElementById(id);
+                    vp.innerHTML = '';
+                    // Generamos stack de items vertical para simular rotación infinita por CSS Matrix
+                    for(let i=0; i<30; i++) {
+                        let div = document.createElement('div');
+                        div.className = 'reel-item';
+                        div.innerText = this.pool[Math.floor(Math.random() * this.pool.length)];
+                        vp.appendChild(div);
+                    }
+                });
+                this.bindLever();
+            },
+
+            bindLever() {
+                const lever = document.getElementById('lever-control');
+                lever.addEventListener('click', () => {
+                    if (this.isSpinning) return;
+                    this.isSpinning = true;
+
+                    AudioFX.play('lever');
+                    
+                    // Animación física de la palanca de control
+                    let tl = gsap.timeline();
+                    tl.to("#l-stick", { rotationX: 60, duration: 0.3, ease: "power2.in" })
+                      .to("#l-stick", { rotationX: 0, duration: 0.4, ease: "bounce.out", onComplete: () => {
+                          this.startSpinningCycle();
+                      }});
+                });
+            },
+
+            startSpinningCycle() {
+                AudioFX.play('spin');
+                document.getElementById('slot-msg').innerText = "PROCESANDO ADN MÁGICO...";
+
+                // Giro a máxima velocidad por manipulación directa de la matriz de transformación de GSAP
+                gsap.to(".reel-viewport", { y: -2400, duration: 0.5, repeat: -1, ease: "none" });
+
+                // Secuenciador de paradas lógicas controladas (Pranks + Final)
+                setTimeout(() => this.stopCycleWithResult(), 3000);
+            },
+
+            stopCycleWithResult() {
+                gsap.killTweensOf(".reel-viewport");
+                AudioFX.stop('spin');
+
+                if (this.prankStep === 1) {
+                    this.injectPrankResult("👦 ES NIÑO", "#a1c4fd");
+                } else if (this.prankStep === 2) {
+                    this.injectPrankResult("👧 ES NIÑA", "#ff9a9e");
+                } else {
+                    this.injectFinalResult();
+                }
+            },
+
+           injectPrankResult(text, color) {
+                ['reel1', 'reel2', 'reel3'].forEach(id => {
+                    const vp = document.getElementById(id);
+                    vp.style.transform = "translateY(0px)";
+                    vp.innerHTML = `<div class="reel-item" style="color:${color}">${text.split(' ')[1]}</div>`;
+                });
+
+                document.getElementById('slot-msg').innerText = text;
+                AudioFX.play('win');
+                ParticleSystem.explodeFirework(window.innerWidth/2, window.innerHeight/2, color);
+
+                // Secuencia de reinicio interactivo para la siguiente broma
+                setTimeout(() => {
+                    // Mensaje dinámico que le exige acción al usuario nuevamente
+                    document.getElementById('slot-msg').innerText = "Mmmm... ¡Falsa alarma! ¡Jala la palanca otra vez! 🎰";
+                    
+                    this.prankStep++;
+                    this.buildReels();
+                    
+                    // Liberamos el candado lógico para permitir el nuevo tiro
+                    this.isSpinning = false; 
+                }, 3500);
+            },
+
+            injectFinalResult() {
+                AudioFX.play('drum');
+                document.getElementById('slot-msg').innerText = "CONSULTANDO CON LA CIGÜEÑA...";
+
+                // Parada dramática uno por uno
+                let finalText = gender === 'boy' ? "BOY" : "GIRL";
+                let finalColor = gender === 'boy' ? "#1e90ff" : "#ff69b4";
+                let em = gender === 'boy' ? "💙" : "🩷";
+
+                let rTl = gsap.timeline();
+                ['reel1', 'reel2', 'reel3'].forEach((id, idx) => {
+                    rTl.to(`#${id}`, {
+                        y: 0,
+                        duration: 1 + (idx * 0.8),
+                        ease: "back.out(1.2)",
+                        onStart: () => {
+                            document.getElementById(id).innerHTML = `<div class="reel-item" style="color:${finalColor}; font-size:1.8rem;">${finalText}</div>`;
+                        }
+                    });
+                });
+
+                // Clímax Absoluto
+                setTimeout(() => {
+                    AudioFX.stop('drum');
+                    
+                    // Flash Blanco Cegador Cinemático
+                    gsap.to("#flash-screen", { opacity: 1, duration: 0.1, yoyo: true, repeat: 1, onComplete: () => {
+                        document.getElementById('slot-machine-container').remove();
+                        this.triggerGrandFinale(em, finalColor);
+                    }});
+                }, 3500);
+            },
+
+            triggerGrandFinale(emoji, color) {
+                AudioFX.play('win');
+                ParticleSystem.setMode('celebration');
+
+                // Detonación masiva de fuegos artificiales en coordenadas estratégicas
+                for(let i=0; i<15; i++) {
+                    setTimeout(() => {
+                        let rx = Math.random() * window.innerWidth;
+                        let ry = Math.random() * (window.innerHeight * 0.6);
+                        ParticleSystem.explodeFirework(rx, ry, color);
+                    }, i * 400);
+                }
+
+                // Generación de Pantalla Final de Créditos Emocionales
+                const stage = document.getElementById('viewport');
+                const endContainer = document.createElement('div');
+                endContainer.className = 'intro-container';
+                stage.appendChild(endContainer);
+
+                const finalLabel = document.createElement('h1');
+                finalLabel.style.fontSize = '4.5rem';
+                finalLabel.style.marginBottom = '40px';
+                finalLabel.style.textShadow = `0 0 30px ${color}`;
+                finalLabel.innerText = gender === 'boy' ? "💙 ¡ES NIÑO! 💙" : "🩷 ¡ES NIÑA! 🩷";
+                endContainer.appendChild(finalLabel);
+
+                const subText = document.createElement('div');
+                subText.className = 'typewriter-text';
+                subText.style.fontSize = '1.6rem';
+                endContainer.appendChild(subText);
+
+                gsap.from(finalLabel, { scale: 0, rotation: -20, duration: 1.5, ease: "elastic.out(1, 0.3)" });
+
+                // Despliegue de Poema Emocional Final
+                const finalPhrases = [
+                    "No importa si eres niño o niña...",
+                    "Ya eres inmensamente amado.",
+                    "No podemos esperar para conocerte.",
+                    "Te esperamos con los brazos abiertos.",
+                    "El mejor regalo no fue descubrir tu género...",
+                    "El mejor regalo fue saber que llegarás a iluminar nuestras vidas. ✨"
+                ];
+
+                let pIndex = 0;
+                const showFinalLine = () => {
+                    if(pIndex < finalPhrases.length) {
+                        subText.innerHTML = finalPhrases[pIndex];
+                        let tl = gsap.timeline();
+                        tl.to(subText, { opacity: 1, duration: 1.2 })
+                          .to(subText, { opacity: 0, duration: 1.2, delay: 3.5, onComplete: () => {
+                              pIndex++;
+                              showFinalLine();
+                          }});
+                    } else {
+                        // Dejar congelado el último mensaje emotivo con brillo infinito
+                        subText.innerHTML = finalPhrases[finalPhrases.length - 1];
+                        gsap.to(subText, { opacity: 1, filter: "drop-shadow(0 0 15px #fff)", duration: 2 });
+                    }
+                };
+                showFinalLine();
+            }
+        };
+
+        // Inicialización del Hilo de Ejecución al cargar el DOM
+        window.addEventListener('DOMContentLoaded', () => CinematicEngine.init());
+    </script>
+</body>
+</html>
